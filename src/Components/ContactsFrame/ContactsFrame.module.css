@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    z-index: 101;
+    overflow: visible;
+    width: 480px;
+    height: 100%;
+
+
+    background-color: #fff;
+}
+
+.header {
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 20px;
+    align-items: center;
+    width: 100%;
+    height: 59px;
+    background-color: #f0f2f5;
+}
+
+.startBtn {
+
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 30%;
+    margin-right: 30%;
+    border-radius: 8px;
+    border-color: transparent;
+    cursor: pointer;
+}

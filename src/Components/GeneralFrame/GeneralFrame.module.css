@@ -1,0 +1,12 @@
+.container {
+    top: 19px;
+    width: calc(100% - 38px);
+    max-width: 1600px;
+    height: calc(100% - 38px);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+
+
+}
