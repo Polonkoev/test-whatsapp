@@ -1,11 +1,9 @@
 import { AddContactModal } from "../../Pages/Modal/AddContactModal/AddContactModal";
 import { useState } from "react";
 import css from "./ContactsFrame.module.css";
+import { Notify } from "notiflix";
 export const ContactsFrame = ({ openModal, senderNumber, addRecipient }) => {
-  const [contacts, setContacts] = useState([
-    ["Almazavr", "877744447777"],
-    ["Rus", "877744447777"],
-  ]);
+  const [contacts, setContacts] = useState([]);
 
   const [isAddContact, setIsAddContact] = useState(false);
   const closeModal = () => {
@@ -21,6 +19,11 @@ export const ContactsFrame = ({ openModal, senderNumber, addRecipient }) => {
   };
   const handleClickItem = (item) => {
     addRecipient(item);
+  };
+  const deleteContact = (index) => {
+    contacts.splice(index, 1);
+
+    Notify.success("Контакт удален!");
   };
   return (
     <>
@@ -63,6 +66,9 @@ export const ContactsFrame = ({ openModal, senderNumber, addRecipient }) => {
                 <div className={css.contactWrapper}>
                   <p>Имя: {name}</p>
                   <p>Номер: {number}</p>
+                  <button onClick={() => deleteContact(index)}>
+                    Удалить контакт
+                  </button>
                 </div>
               </li>
             );
@@ -72,5 +78,3 @@ export const ContactsFrame = ({ openModal, senderNumber, addRecipient }) => {
     </>
   );
 };
-
-//TODO Добавить кнопку удаления контакта

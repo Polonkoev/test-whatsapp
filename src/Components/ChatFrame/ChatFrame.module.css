@@ -10,7 +10,7 @@
     background-repeat: repeat;
     background-color: rgba(239, 234, 226);
     border-left: 1px solid #eff1f4;
-
+    overflow: hidden;
 }
 
 .header {
@@ -24,6 +24,6 @@
 }
 
 .recipientTitle {
-    display: flex;
+    /* display: flex; */
 
 }

@@ -1,3 +1,4 @@
+import { MessageBox } from "./MessageBox/MessageBox";
 import { InputMessage } from "../InputMessage/InputMessage";
 import css from "./ChatFrame.module.css";
 export const ChatFrame = ({ recipient, authData }) => {
@@ -7,7 +8,7 @@ export const ChatFrame = ({ recipient, authData }) => {
       <div className={css.header}>
         <p className={css.recipientTitle}> {name}</p>
       </div>
-      <InputMessage number={number} authData={authData} recipient={recipient} />
+      <MessageBox recipient={recipient} authData={authData} />
     </div>
   );
 };
