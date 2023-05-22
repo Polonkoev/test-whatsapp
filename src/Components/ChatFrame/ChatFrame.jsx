@@ -1,12 +1,13 @@
 import { InputMessage } from "../InputMessage/InputMessage";
 import css from "./ChatFrame.module.css";
-export const ChatFrame = () => {
+export const ChatFrame = ({ recipient, authData }) => {
+  const [name, number] = recipient;
   return (
     <div className={css.container}>
       <div className={css.header}>
-        <p>Получатель</p>
+        <p className={css.recipientTitle}> {name}</p>
       </div>
-      <InputMessage />
+      <InputMessage number={number} authData={authData} recipient={recipient} />
     </div>
   );
 };
