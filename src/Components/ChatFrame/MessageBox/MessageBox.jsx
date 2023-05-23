@@ -1,19 +1,27 @@
 import { InputMessage } from "../../InputMessage/InputMessage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import css from "./MessageBox.module.css";
 export const MessageBox = ({ recipient, authData }) => {
   const [inbox, setInbox] = useState(["входящее"]);
-  const [outbox, setOutbox] = useState(["исходящее"]);
 
-  const [name, number] = recipient;
+  const [messages, setMessages] = useState({});
+  const [isSelected, setIsSelected] = useState(false);
+
+  const [id, name, number] = recipient;
+
+  const setOutboxMessage = (message) => {
+    setIsSelected(true);
+    setMessages((prevMessages) => ({
+      ...prevMessages,
+      [id]: [...(prevMessages[id] || []), message],
+    }));
+    console.log(messages);
+  };
+
   const setInboxMessage = (message) => {
     setInbox([...inbox, message]);
   };
-  const setOutboxMessage = (message) => {
-    const newMessage = message;
-    setOutbox((prevOutbox) => [...prevOutbox, newMessage]);
-    console.log(outbox);
-  };
+
   return (
     <>
       <div className={css.container}>
@@ -26,16 +34,20 @@ export const MessageBox = ({ recipient, authData }) => {
             );
           })}
         </ul>
-        <ul className={css.list}>
-          {outbox.map((message, index) => {
-            return (
-              <li key={index} className={css.outbox}>
-                <p className={css.outboxMessage}>{message}</p>
-              </li>
-            );
-          })}
-        </ul>
+        {
+          <ul className={css.list}>
+            {messages[id] &&
+              messages[id].map((message, index) => {
+                return (
+                  <li key={index} className={css.outbox}>
+                    <p className={css.outboxMessage}>{message}</p>
+                  </li>
+                );
+              })}
+          </ul>
+        }
       </div>
+
       <InputMessage
         number={number}
         authData={authData}

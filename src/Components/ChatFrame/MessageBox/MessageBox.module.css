@@ -1,10 +1,13 @@
 .container {
     display: flex;
     flex-direction: column-reverse;
-    justify-content: start;
+    justify-content: end;
     margin-top: auto;
     margin-bottom: 0;
-
+    overflow: scroll;
+    height: 90%;
+    /* background-color: #fff; */
+    /* backdrop-filter: blur(1px); */
 
 }
 

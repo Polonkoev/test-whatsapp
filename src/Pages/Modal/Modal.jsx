@@ -2,7 +2,12 @@ import { Notify } from "notiflix/build/notiflix-notify-aio";
 import { useState } from "react";
 import axios from "axios";
 import css from "./Modal.module.css";
-export const Modal = ({ closeModal, senderNumberProps, getAuthData }) => {
+export const Modal = ({
+  closeModal,
+  senderNumberProps,
+  getAuthData,
+  isLoginToggle,
+}) => {
   const [idInstance, setIdInstance] = useState("");
   const [apiTokenInstance, setApiTokenInstance] = useState("");
 
@@ -15,6 +20,7 @@ export const Modal = ({ closeModal, senderNumberProps, getAuthData }) => {
       `https://api.green-api.com/waInstance${idInstance}/getSettings/${apiTokenInstance}`
     )
       .then((response) => {
+        isLoginToggle();
         console.log(response.data);
         senderNumberProps(response.data.wid.split("@")[0]);
 

@@ -2,6 +2,7 @@ import { AddContactModal } from "../../Pages/Modal/AddContactModal/AddContactMod
 import { useState } from "react";
 import css from "./ContactsFrame.module.css";
 import { Notify } from "notiflix";
+import { nanoid } from "nanoid";
 export const ContactsFrame = ({ openModal, senderNumber, addRecipient }) => {
   const [contacts, setContacts] = useState([]);
 
@@ -14,7 +15,9 @@ export const ContactsFrame = ({ openModal, senderNumber, addRecipient }) => {
   };
 
   const addContact = (contact) => {
-    const newContact = contact;
+    const [name, number] = contact;
+    const newContact = [nanoid(), name, number];
+
     setContacts([...contacts, newContact]);
   };
   const handleClickItem = (item) => {
@@ -56,7 +59,7 @@ export const ContactsFrame = ({ openModal, senderNumber, addRecipient }) => {
         </div>
         <ul className={css.contactsList}>
           {contacts.map((el, index) => {
-            const [name, number] = el;
+            const [id, name, number] = el;
             return (
               <li
                 className={css.contactsListItem}

@@ -4,7 +4,7 @@ import axios from "axios";
 import { Notify } from "notiflix";
 export const InputMessage = ({ authData, recipient, setOutboxMessage }) => {
   const [message, setMessage] = useState([]);
-  const [name, number] = recipient;
+  const [id, name, number] = recipient;
   const addMessage = (event) => {
     setMessage(event.target.value);
   };
@@ -15,12 +15,12 @@ export const InputMessage = ({ authData, recipient, setOutboxMessage }) => {
     if (message !== "") {
       setOutboxMessage(message);
       setMessage("");
-    }
+    } // Убрать и расскомментировать код ниже для отправки сообщений
 
-    // const data = {
-    //   chatId: `${number}@c.us`,
-    //   message,
-    // };
+    //   const data = {
+    //     chatId: `${number}@c.us`,
+    //     message,
+    //   };
     //   axios
     //     .post(
     //       `https://api.green-api.com/waInstance${idInstance}/sendMessage/${apiTokenInstance}`,
@@ -39,6 +39,7 @@ export const InputMessage = ({ authData, recipient, setOutboxMessage }) => {
     //   Notify.failure("Напишите сообщение!");
     // }
   };
+
   return (
     <>
       <div className={css.container}>
@@ -48,16 +49,12 @@ export const InputMessage = ({ authData, recipient, setOutboxMessage }) => {
             type="text"
             value={message}
             onChange={addMessage}
-
-            // onKeyDown={}
           />
           <button className={css.btn} onClick={sendMessage}>
-            Send
+            Отправить
           </button>
         </div>
       </div>
     </>
   );
 };
-
-//TODO: Добавить соообщения во фрейм с сообщениями

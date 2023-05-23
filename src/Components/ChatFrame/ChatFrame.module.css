@@ -11,6 +11,7 @@
     background-color: rgba(239, 234, 226);
     border-left: 1px solid #eff1f4;
     overflow: hidden;
+
 }
 
 .header {
@@ -23,7 +24,15 @@
 
 }
 
-.recipientTitle {
-    /* display: flex; */
+.inputPlaceholder {
 
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    min-height: 62px;
+
+    background-color: #f0f2f5;
 }
