@@ -7,7 +7,7 @@ import css from "./GeneralFrame.module.css";
 export const GeneralFrame = () => {
   const [isModalOpen, setIsmodalOpen] = useState(false);
   const [senderNumber, setSenderNumber] = useState("");
-  const [recipient, setRecipient] = useState([]);
+  const [recipient, setRecipient] = useState("");
   const [idInstance, setIdInstance] = useState("");
   const [apiTokenInstance, setApiTokenInstance] = useState("");
   const [isLogin, setIsLogin] = useState(false); // изменить на false после теста
@@ -34,6 +34,9 @@ export const GeneralFrame = () => {
   const addRecipient = (rec) => {
     setRecipient(rec);
   };
+  const deleteRecipient = () => {
+    setRecipient(""); // Обновляем recipient, если удаленный контакт был текущим получателем
+  };
   return (
     <>
       {isModalOpen && (
@@ -49,6 +52,7 @@ export const GeneralFrame = () => {
           openModal={openModal}
           senderNumber={senderNumber}
           addRecipient={addRecipient}
+          deleteRecipient={deleteRecipient}
         />
         <ChatFrame
           recipient={recipient}

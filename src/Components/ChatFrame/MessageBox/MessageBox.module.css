@@ -4,7 +4,7 @@
     justify-content: end;
     margin-top: auto;
     margin-bottom: 0;
-    overflow: scroll;
+    overflow: auto;
     height: 90%;
     /* background-color: #fff; */
     /* backdrop-filter: blur(1px); */

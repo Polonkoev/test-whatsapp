@@ -3,10 +3,17 @@ import { useState } from "react";
 import css from "./ContactsFrame.module.css";
 import { Notify } from "notiflix";
 import { nanoid } from "nanoid";
-export const ContactsFrame = ({ openModal, senderNumber, addRecipient }) => {
+export const ContactsFrame = ({
+  openModal,
+  senderNumber,
+  addRecipient,
+  deleteRecipient,
+}) => {
   const [contacts, setContacts] = useState([]);
 
   const [isAddContact, setIsAddContact] = useState(false);
+
+  const [id, name, number] = contacts;
   const closeModal = () => {
     setIsAddContact(false);
   };
@@ -23,9 +30,11 @@ export const ContactsFrame = ({ openModal, senderNumber, addRecipient }) => {
   const handleClickItem = (item) => {
     addRecipient(item);
   };
-  const deleteContact = (index) => {
-    contacts.splice(index, 1);
-
+  const deleteContact = (id) => {
+    deleteRecipient();
+    const updatedContacts = contacts.filter((contact) => contact[0] !== id);
+    setContacts(updatedContacts);
+    console.log(id);
     Notify.success("Контакт удален!");
   };
   return (
@@ -61,19 +70,21 @@ export const ContactsFrame = ({ openModal, senderNumber, addRecipient }) => {
           {contacts.map((el, index) => {
             const [id, name, number] = el;
             return (
-              <li
-                className={css.contactsListItem}
-                key={index}
-                onClick={() => handleClickItem(el)}
-              >
-                <div className={css.contactWrapper}>
-                  <p>Имя: {name}</p>
-                  <p>Номер: {number}</p>
-                  <button onClick={() => deleteContact(index)}>
-                    Удалить контакт
-                  </button>
-                </div>
-              </li>
+              <div key={id}>
+                <li
+                  className={css.contactsListItem}
+                  key={id}
+                  onClick={() => handleClickItem(el)}
+                >
+                  <div className={css.contactWrapper}>
+                    <p>Имя: {name}</p>
+                    <p>Номер: {number}</p>
+                  </div>
+                </li>
+                <button onClick={() => deleteContact(id)}>
+                  Удалить контакт
+                </button>
+              </div>
             );
           })}
         </ul>

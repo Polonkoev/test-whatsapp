@@ -70,7 +70,7 @@
 
     border: 1px solid #e9edef;
     margin-top: 10px;
-    margin-bottom: 10px;
+
 
 }
 
@@ -85,4 +85,8 @@
     /* margin-bottom: 10px; */
     margin-left: 10px;
 
+}
+
+.deleteBtn {
+    margin-left: 70%;
 }

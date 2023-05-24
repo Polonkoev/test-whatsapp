@@ -42,19 +42,27 @@ export const InputMessage = ({ authData, recipient, setOutboxMessage }) => {
 
   return (
     <>
-      <div className={css.container}>
-        <div className={css.inputWrapper}>
-          <input
-            className={css.input}
-            type="text"
-            value={message}
-            onChange={addMessage}
-          />
-          <button className={css.btn} onClick={sendMessage}>
-            Отправить
-          </button>
+      {recipient !== "" ? (
+        <div className={css.container}>
+          <div className={css.inputWrapper}>
+            <input
+              className={css.input}
+              type="text"
+              value={message}
+              onChange={addMessage}
+            />
+            <button className={css.btn} onClick={sendMessage}>
+              Отправить
+            </button>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className={css.placeholderWrapper}>
+          <p className={css.inputPlaceholder}>
+            Выберите контакт для отправки сообщений
+          </p>
+        </div>
+      )}
     </>
   );
 };
