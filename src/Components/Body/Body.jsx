@@ -5,9 +5,11 @@ import css from "./Body.module.css";
 
 export const Body = () => {
   return (
-    <div className={css.container}>
-      <Header />
-      <GeneralFrame />
+    <div className={css.backdrop}>
+      <div className={css.container}>
+        <Header />
+        <GeneralFrame />
+      </div>
     </div>
   );
 };

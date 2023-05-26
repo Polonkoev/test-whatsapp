@@ -4,6 +4,7 @@ import axios from "axios";
 import { Notify } from "notiflix";
 export const InputMessage = ({ authData, recipient, setOutboxMessage }) => {
   const [message, setMessage] = useState([]);
+
   const [id, name, number] = recipient;
   const addMessage = (event) => {
     setMessage(event.target.value);
@@ -15,29 +16,29 @@ export const InputMessage = ({ authData, recipient, setOutboxMessage }) => {
     if (message !== "") {
       setOutboxMessage(message);
       setMessage("");
-    } // Убрать и расскомментировать код ниже для отправки сообщений
+      // Убрать и расскомментировать код ниже для отправки сообщений
 
-    //   const data = {
-    //     chatId: `${number}@c.us`,
-    //     message,
-    //   };
-    //   axios
-    //     .post(
-    //       `https://api.green-api.com/waInstance${idInstance}/sendMessage/${apiTokenInstance}`,
-    //       data
-    //     )
-    //     .then((response) => {
-    //       console.log(response.data);
+      const data = {
+        chatId: `${number}@c.us`,
+        message,
+      };
+      axios
+        .post(
+          `https://api.green-api.com/waInstance${idInstance}/sendMessage/${apiTokenInstance}`,
+          data
+        )
+        .then((response) => {
+          console.log(response.data);
 
-    //       Notify.success("Отправлено!");
-    //     })
-    //     .catch((error) => {
-    //       console.error(error);
-    //       Notify.failure("Ошибка!");
-    //     });
-    // } else {
-    //   Notify.failure("Напишите сообщение!");
-    // }
+          Notify.success("Отправлено!");
+        })
+        .catch((error) => {
+          console.error(error);
+          Notify.failure("Ошибка!");
+        });
+    } else {
+      Notify.failure("Напишите сообщение!");
+    }
   };
 
   return (

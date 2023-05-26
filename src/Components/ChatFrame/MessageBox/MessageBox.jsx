@@ -1,14 +1,20 @@
 import { InputMessage } from "../../InputMessage/InputMessage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import css from "./MessageBox.module.css";
 import axios from "axios";
 import { Notify } from "notiflix";
-export const MessageBox = ({ recipient, authData }) => {
-  const [inboxMessages, setInboxMessages] = useState({});
-  const [inboxTimestamp, setInboxTimestamp] = useState("");
+export const MessageBox = ({ recipient, authData, isLogin }) => {
   const [currentTimestamp, setCurrentTimestamp] = useState("");
 
   const [messages, setMessages] = useState({});
+
+  useEffect(() => {
+    if (isLogin) {
+      const interval = setInterval(checkMessage, 10000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isLogin]);
 
   const [idInstance, apiTokenInstance] = authData;
 
@@ -19,18 +25,28 @@ export const MessageBox = ({ recipient, authData }) => {
       `https://api.green-api.com/waInstance${idInstance}/receiveNotification/${apiTokenInstance}`
     )
       .then((response) => {
-        const message = response.data.body.messageData.textMessageData;
-        const sender = response.data.body.senderData.sender.split("@")[0];
-        const inboxTimestamp = response.data.body.timestamp;
-        setInboxTimestamp(inboxTimestamp);
-        console.log(inboxTimestamp);
-        console.log(sender);
+        setCurrentTimestamp(Math.floor(Date.now() / 1000));
         console.log(response.data);
-        setInboxMessages((prevInboxMessages) => ({
-          ...prevInboxMessages,
-          [sender]: [...(prevInboxMessages[sender] || []), message],
-        }));
-        Notify.success("Обновлено!");
+
+        if (response.data !== null) {
+          const message =
+            response.data.body.messageData.textMessageData.textMessage;
+          const inboxTimestamp = response.data.body.timestamp;
+          Notify.success(`Новое сообщение от ${number}`);
+          setMessages((prevMessages) => ({
+            ...prevMessages,
+            [number]: [
+              ...(prevMessages[number] || []),
+              {
+                text: message,
+                timestamp: inboxTimestamp,
+                type: "inbox",
+              },
+            ],
+          }));
+          deleteMessage(response.data.receiptId);
+          console.log(response.data.receiptId);
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -38,48 +54,60 @@ export const MessageBox = ({ recipient, authData }) => {
       });
   };
 
+  const deleteMessage = (id) => {
+    if (id !== null) {
+      axios
+        .delete(
+          `https://api.green-api.com/waInstance${idInstance}/deleteNotification/${apiTokenInstance}/${id}`
+        )
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.error(error);
+          Notify.failure("Ошибка!");
+        });
+    }
+  };
+
   const setOutboxMessage = (message) => {
+    setCurrentTimestamp(Math.floor(Date.now() / 1000));
     setMessages((prevMessages) => ({
       ...prevMessages,
-      [number]: [...(prevMessages[number] || []), message],
+      [number]: [
+        ...(prevMessages[number] || []),
+        {
+          text: message,
+          timestamp: currentTimestamp,
+          type: "outbox",
+        },
+      ],
     }));
-    setCurrentTimestamp(Math.floor(Date.now() / 1000));
   };
 
   return (
     <>
-      {/* <div className={css.container}>
-        <button onClick={() => checkMessage()}>Обновить</button>
-        <ul className={css.list}>
-          {(inboxMessages[number] || []).map((message, index) => (
-            <li key={`inbox-${index}`} className={css.inbox}>
-              <p className={css.inboxMessage}>{message.textMessage}</p>
-            </li>
-          ))}
-          {(messages[number] || []).map((message, index) => (
-            <li key={`outbox-${index}`} className={css.outbox}>
-              <p className={css.outboxMessage}>{message}</p>
-            </li>
-          ))}
-        </ul>
-      </div> */}
-
       <div className={css.container}>
-        <button onClick={() => checkMessage()}>Обновить</button>
         <ul className={css.list}>
-          {inboxTimestamp > currentTimestamp
-            ? (inboxMessages[number] || []).map((inboxMessage, index) => (
-                <li key={`inbox-${index}`} className={css.inbox}>
-                  <p className={css.inboxMessage}>{inboxMessage.textMessage}</p>
-                </li>
-              ))
-            : (messages[number] || []).map((outboxMessage, index) => (
-                <li key={`outbox-${index}`} className={css.outbox}>
-                  <p className={css.outboxMessage}>{outboxMessage}</p>
-                </li>
-              ))}
+          {Object.values(messages[number] || []).map((message, index) => (
+            <li
+              key={index}
+              className={message.type === "inbox" ? css.inbox : css.outbox}
+            >
+              <p
+                className={
+                  message.type === "inbox"
+                    ? css.inboxMessage
+                    : css.outboxMessage
+                }
+              >
+                {message.text}
+              </p>
+            </li>
+          ))}
         </ul>
       </div>
+
       {
         <InputMessage
           number={number}

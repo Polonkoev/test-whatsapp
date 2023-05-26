@@ -16,7 +16,11 @@ export const ChatFrame = ({ recipient, authData, isLogin }) => {
       </div>
 
       {isLogin ? (
-        <MessageBox recipient={recipient} authData={authData} />
+        <MessageBox
+          recipient={recipient}
+          authData={authData}
+          isLogin={isLogin}
+        />
       ) : (
         <div className={css.inputPlaceholder}>
           <p>Пожалуйста авторизуйтесь для отправки сообщений!</p>

@@ -2,4 +2,23 @@
     height: 100vh;
     width: 100%;
     background-color: #e2e1de;
+
+}
+
+.backdrop {
+    position: relative;
+}
+
+.backdrop::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(205, 221, 206, 0.2);
+    /* Задайте желаемый цвет и прозрачность */
+    z-index: 9999;
+    /* Установите z-index выше, чем у остальных элементов */
+    pointer-events: none
 }
