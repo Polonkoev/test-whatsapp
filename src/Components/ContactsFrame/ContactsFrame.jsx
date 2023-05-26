@@ -34,7 +34,7 @@ export const ContactsFrame = ({
     deleteRecipient();
     const updatedContacts = contacts.filter((contact) => contact[0] !== id);
     setContacts(updatedContacts);
-    console.log(id);
+
     Notify.success("Контакт удален!");
   };
   return (

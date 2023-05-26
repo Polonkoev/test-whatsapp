@@ -21,7 +21,7 @@ export const Modal = ({
     )
       .then((response) => {
         isLoginToggle();
-        console.log(response.data);
+
         senderNumberProps(response.data.wid.split("@")[0]);
 
         Notify.success("Авторизовано!");

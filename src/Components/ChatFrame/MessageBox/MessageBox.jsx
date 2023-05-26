@@ -26,7 +26,6 @@ export const MessageBox = ({ recipient, authData, isLogin }) => {
     )
       .then((response) => {
         setCurrentTimestamp(Math.floor(Date.now() / 1000));
-        console.log(response.data);
 
         if (response.data !== null) {
           const message =
@@ -45,7 +44,6 @@ export const MessageBox = ({ recipient, authData, isLogin }) => {
             ],
           }));
           deleteMessage(response.data.receiptId);
-          console.log(response.data.receiptId);
         }
       })
       .catch((error) => {
@@ -60,9 +58,7 @@ export const MessageBox = ({ recipient, authData, isLogin }) => {
         .delete(
           `https://api.green-api.com/waInstance${idInstance}/deleteNotification/${apiTokenInstance}/${id}`
         )
-        .then((response) => {
-          console.log(response);
-        })
+        .then((response) => {})
         .catch((error) => {
           console.error(error);
           Notify.failure("Ошибка!");

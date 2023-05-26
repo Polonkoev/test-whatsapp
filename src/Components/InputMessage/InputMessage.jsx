@@ -28,8 +28,6 @@ export const InputMessage = ({ authData, recipient, setOutboxMessage }) => {
           data
         )
         .then((response) => {
-          console.log(response.data);
-
           Notify.success("Отправлено!");
         })
         .catch((error) => {
