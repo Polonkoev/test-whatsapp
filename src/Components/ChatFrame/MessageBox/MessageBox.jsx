@@ -28,14 +28,17 @@ export const MessageBox = ({ recipient, authData, isLogin }) => {
         setCurrentTimestamp(Math.floor(Date.now() / 1000));
 
         if (response.data !== null) {
+          console.log();
+          const sebderNumber =
+            response.data.body.senderData.sender.split("@")[0];
           const message =
             response.data.body.messageData.textMessageData.textMessage;
           const inboxTimestamp = response.data.body.timestamp;
-          Notify.success(`Новое сообщение от ${number}`);
+
           setMessages((prevMessages) => ({
             ...prevMessages,
-            [number]: [
-              ...(prevMessages[number] || []),
+            [sebderNumber]: [
+              ...(prevMessages[sebderNumber] || []),
               {
                 text: message,
                 timestamp: inboxTimestamp,
@@ -43,12 +46,14 @@ export const MessageBox = ({ recipient, authData, isLogin }) => {
               },
             ],
           }));
-          deleteMessage(response.data.receiptId);
+          Notify.success(`Новое сообщение от ${sebderNumber}`);
+          setTimeout(deleteMessage(response.data.receiptId), 5000);
+          // ;
         }
       })
       .catch((error) => {
         console.error(error);
-        Notify.failure("Ошибка!");
+        Notify.failure(error);
       });
   };
 
@@ -85,22 +90,23 @@ export const MessageBox = ({ recipient, authData, isLogin }) => {
     <>
       <div className={css.container}>
         <ul className={css.list}>
-          {Object.values(messages[number] || []).map((message, index) => (
-            <li
-              key={index}
-              className={message.type === "inbox" ? css.inbox : css.outbox}
-            >
-              <p
-                className={
-                  message.type === "inbox"
-                    ? css.inboxMessage
-                    : css.outboxMessage
-                }
+          {number &&
+            Object.values(messages[number] || []).map((message, index) => (
+              <li
+                key={index}
+                className={message.type === "inbox" ? css.inbox : css.outbox}
               >
-                {message.text}
-              </p>
-            </li>
-          ))}
+                <p
+                  className={
+                    message.type === "inbox"
+                      ? css.inboxMessage
+                      : css.outboxMessage
+                  }
+                >
+                  {message.text}
+                </p>
+              </li>
+            ))}
         </ul>
       </div>
 

@@ -6,9 +6,6 @@ export const InputMessage = ({ authData, recipient, setOutboxMessage }) => {
   const [message, setMessage] = useState([]);
 
   const [id, name, number] = recipient;
-  const addMessage = (event) => {
-    setMessage(event.target.value);
-  };
 
   const [idInstance, apiTokenInstance] = authData;
 
@@ -16,7 +13,6 @@ export const InputMessage = ({ authData, recipient, setOutboxMessage }) => {
     if (message !== "") {
       setOutboxMessage(message);
       setMessage("");
-      // Убрать и расскомментировать код ниже для отправки сообщений
 
       const data = {
         chatId: `${number}@c.us`,
@@ -38,6 +34,11 @@ export const InputMessage = ({ authData, recipient, setOutboxMessage }) => {
       Notify.failure("Напишите сообщение!");
     }
   };
+  function handleEnter(event) {
+    if (event.key === "Enter") {
+      sendMessage();
+    }
+  }
 
   return (
     <>
@@ -48,7 +49,8 @@ export const InputMessage = ({ authData, recipient, setOutboxMessage }) => {
               className={css.input}
               type="text"
               value={message}
-              onChange={addMessage}
+              onChange={(event) => setMessage(event.target.value)}
+              onKeyDown={(event) => handleEnter(event)}
             />
             <button className={css.btn} onClick={sendMessage}>
               Отправить
